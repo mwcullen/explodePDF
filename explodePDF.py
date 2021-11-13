@@ -4,9 +4,11 @@ import argparse
 import subprocess
 import os
 
+
 def main():
     DEFAULT_RESOLUTION = 150
-    PDF_TO_PPM_PATH = os.path.abspath("/usr/bin/pdftoppm")
+    # if we can't run directly on the path then we shouldn't do this at all.
+    # PDF_TO_PPM_PATH = os.path.abspath("/usr/bin/pdftoppm")
 
     set_resolution = DEFAULT_RESOLUTION
 
@@ -33,16 +35,24 @@ def main():
     else:
         os.makedirs(args.outputFileName)
         path_to_outdirectory = os.path.abspath(args.outputFileName)
-    
-    #New and improved, make the new directory our working directory and then pop out once we're done
+
+    # New and improved, make the new directory our working directory and then
+    # pop out once we're done
     os.chdir(path_to_outdirectory)
 
-    # build up the dang popen
-    popenArgs = [PDF_TO_PPM_PATH, '-png', '-r',
-                 str(set_resolution), path_to_infile, args.outputFileName]
-    subprocess.Popen(popenArgs)
+    # build up the dang run statement
+    try:
+        runArgs = ['pdftoppm', '-png', '-r',
+                   str(set_resolution), path_to_infile, args.outputFileName]
+        subprocess.run(runArgs)
+    except OSError as e:
+        print("execution failed:", e)
+    except subprocess.CalledProcessError as e:
+        print(e.output)
+        print("exiting process with error...")
+        exit()
 
-    #back to our old directory
+    # back to our old directory
     os.chdir('..')
 
 
