@@ -26,6 +26,7 @@ def main():
         path_to_infile = os.path.abspath(args.inputFile)
     else:
         parser.error("couldn't parse infile")
+        exit()
 
     if os.path.exists(args.outputFileName):
         path_to_outdirectory = os.path.abspath(args.outputFileName)
