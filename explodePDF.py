@@ -30,6 +30,7 @@ def main():
 
     if os.path.exists(args.outputFileName):
         path_to_outdirectory = os.path.abspath(args.outputFileName)
+        print("Output directory already exists, e")
     else:
         os.makedirs(args.outputFileName)
         path_to_outdirectory = os.path.abspath(args.outputFileName)
@@ -38,9 +39,9 @@ def main():
     os.chdir(path_to_outdirectory)
 
     # build up the dang popen
-    popenArgs = [PDF_TO_PPM_PATH, '-png', '-r',
+    runArgs = [PDF_TO_PPM_PATH, '-png', '-r',
                  str(set_resolution), path_to_infile, args.outputFileName]
-    subprocess.Popen(popenArgs)
+    subprocess.run(runArgs)
 
     #back to our old directory
     os.chdir('..')
