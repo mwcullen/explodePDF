@@ -32,6 +32,7 @@ def main():
 
     if os.path.exists(args.outputFileName):
         path_to_outdirectory = os.path.abspath(args.outputFileName)
+        print("Output directory already exists, e")
     else:
         os.makedirs(args.outputFileName)
         path_to_outdirectory = os.path.abspath(args.outputFileName)
